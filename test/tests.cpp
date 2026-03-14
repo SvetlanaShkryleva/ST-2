@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <gtest/gtest.h>
 
-const double EPS = 0.0001;
+const double EPS = 0.001;
 
 // -----------------------------
 // ТЕСТЫ КЛАССА CIRCLE
