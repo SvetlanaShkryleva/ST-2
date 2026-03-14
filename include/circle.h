@@ -4,14 +4,14 @@
 #include <cmath>
 
 class Circle {
-private:
+ private:
   double radius;
   double ference;
   double area;
 
   static const double pi;
 
-public:
+ public:
   explicit Circle(double r);
 
   void setRadius(double r);
