@@ -137,4 +137,17 @@ TEST(PoolTaskTest, NoPathCost) {
   EXPECT_NEAR(0.0, res.costOfRoad, EPS);
 }
 
-TEST(PoolTaskTest, SmallPoolCost) { Pool res = calculateCostOfPool }
+TEST(PoolTaskTest, SmallPoolCost) {
+  Pool res = calculateCostOfPool(1.0, 0.5);
+  EXPECT_GT(res.costOfRoad, 0);
+}
+
+TEST(PoolTaskTest, FenceCostPositive) {
+  Pool res = calculateCostOfPool(3.0, 1.0);
+  EXPECT_GT(res.costOfFence, 0);
+}
+
+TEST(PoolTaskTest, LargePoolFence) {
+  Pool res = calculateCostOfPool(10.0, 2.0);
+  EXPECT_GT(res.costOfFence, 70000);
+}
