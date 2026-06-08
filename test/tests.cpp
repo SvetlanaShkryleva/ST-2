@@ -6,149 +6,159 @@
 #include "circle.h"
 #include "tasks.h"
 
-const double EPS = 0.001;
+const double TOLERANCE = 0.001;
 
-// -----------------------------
-// ТЕСТЫ КЛАССА CIRCLE
-// -----------------------------
+// ============================================================
+// Тесты для класса Circle (работа с радиусом, длиной, площадью)
+// ============================================================
 
-TEST(CircleTest, ConstructorRadius3) {
-  Circle c(3.0);
-  EXPECT_NEAR(3.0, c.getRadius(), EPS);
+TEST(CircleCheck, ConstructWithRadius2) {
+    Circle c(2.0);
+    EXPECT_NEAR(c.getRadius(), 2.0, TOLERANCE);
 }
 
-TEST(CircleTest, ConstructorRadius7) {
-  Circle c(7.0);
-  EXPECT_NEAR(7.0, c.getRadius(), EPS);
+TEST(CircleCheck, ConstructWithRadius5) {
+    Circle c(5.0);
+    EXPECT_NEAR(c.getRadius(), 5.0, TOLERANCE);
 }
 
-TEST(CircleTest, RadiusUpdatesFerence) {
-  Circle c(0);
-  c.setRadius(3.0);
-  EXPECT_NEAR(18.8496, c.getFerence(), EPS);
+TEST(CircleCheck, SetRadiusUpdatesLength) {
+    Circle c(0);
+    c.setRadius(2.0);
+    EXPECT_NEAR(c.getFerence(), 12.56637, TOLERANCE);
 }
 
-TEST(CircleTest, RadiusUpdatesArea) {
-  Circle c(0);
-  c.setRadius(3.0);
-  EXPECT_NEAR(28.2743, c.getArea(), EPS);
+TEST(CircleCheck, SetRadiusUpdatesArea) {
+    Circle c(0);
+    c.setRadius(2.0);
+    EXPECT_NEAR(c.getArea(), 12.56637, TOLERANCE);
 }
 
-TEST(CircleTest, FerenceUpdatesRadius) {
-  Circle c(0);
-  c.setFerence(18.8496);
-  EXPECT_NEAR(3.0, c.getRadius(), EPS);
+TEST(CircleCheck, SetLengthUpdatesRadius) {
+    Circle c(0);
+    c.setFerence(12.56637);
+    EXPECT_NEAR(c.getRadius(), 2.0, TOLERANCE);
 }
 
-TEST(CircleTest, FerenceUpdatesArea) {
-  Circle c(0);
-  c.setFerence(18.8496);
-  EXPECT_NEAR(28.2743, c.getArea(), EPS);
+TEST(CircleCheck, SetLengthUpdatesArea) {
+    Circle c(0);
+    c.setFerence(12.56637);
+    EXPECT_NEAR(c.getArea(), 12.56637, TOLERANCE);
 }
 
-TEST(CircleTest, AreaUpdatesRadius) {
-  Circle c(0);
-  c.setArea(78.5398);
-  EXPECT_NEAR(5.0, c.getRadius(), EPS);
+TEST(CircleCheck, SetAreaUpdatesRadius) {
+    Circle c(0);
+    c.setArea(78.53982);
+    EXPECT_NEAR(c.getRadius(), 5.0, TOLERANCE);
 }
 
-TEST(CircleTest, AreaUpdatesFerence) {
-  Circle c(0);
-  c.setArea(78.5398);
-  EXPECT_NEAR(31.4159, c.getFerence(), EPS);
+TEST(CircleCheck, SetAreaUpdatesLength) {
+    Circle c(0);
+    c.setArea(78.53982);
+    EXPECT_NEAR(c.getFerence(), 31.41593, TOLERANCE);
 }
 
-TEST(CircleTest, SmallRadiusValue) {
-  Circle c(0.05);
-  EXPECT_GT(c.getArea(), 0.0);
+TEST(CircleCheck, TinyRadiusWorks) {
+    Circle c(0.1);
+    EXPECT_GT(c.getArea(), 0.0);
+    EXPECT_LT(c.getArea(), 1.0);
 }
 
-TEST(CircleTest, VeryLargeRadius) {
-  Circle c(50000);
-  EXPECT_GT(c.getFerence(), 300000);
+TEST(CircleCheck, HugeRadiusWorks) {
+    Circle c(10000.0);
+    EXPECT_GT(c.getFerence(), 60000.0);
 }
 
-TEST(CircleTest, MultipleChanges) {
-  Circle c(2);
-  c.setRadius(6);
-  c.setFerence(12);
-  EXPECT_GT(c.getArea(), 10);
+TEST(CircleCheck, SequentialChanges) {
+    Circle c(3.0);
+    c.setRadius(4.0);
+    c.setFerence(30.0);
+    EXPECT_GT(c.getArea(), 70.0);
 }
 
-TEST(CircleTest, AreaPositive) {
-  Circle c(2);
-  EXPECT_GT(c.getArea(), 0);
+TEST(CircleCheck, AreaAlwaysPositive) {
+    Circle c(0.5);
+    EXPECT_GT(c.getArea(), 0.0);
 }
 
-// -----------------------------
-// ТЕСТЫ ЗАДАЧИ "ЗЕМЛЯ И ВЕРЕВКА"
-// -----------------------------
+// ============================================================
+// Тесты для задачи "Земля и верёвка" (зазор при удлинении)
+// ============================================================
 
-TEST(EarthTaskTest, ThreeMeterGap) {
-  double gap = calculateEarthGap(6378.1, 3.0);
-  EXPECT_NEAR(0.47746, gap, 0.001);
+TEST(EarthRope, Add5Meters) {
+    double gap = calculateEarthGap(6378.1, 5.0);
+    EXPECT_NEAR(gap, 0.79577, 0.001);
 }
 
-TEST(EarthTaskTest, FourMeterGap) {
-  double gap = calculateEarthGap(6378.1, 4.0);
-  EXPECT_NEAR(0.63662, gap, 0.001);
+TEST(EarthRope, Add6Meters) {
+    double gap = calculateEarthGap(6378.1, 6.0);
+    EXPECT_NEAR(gap, 0.95493, 0.001);
 }
 
-TEST(EarthTaskTest, TenMeterGap) {
-  double gap = calculateEarthGap(6378.1, 10.0);
-  EXPECT_NEAR(1.59155, gap, 0.001);
+TEST(EarthRope, Add15Meters) {
+    double gap = calculateEarthGap(6378.1, 15.0);
+    EXPECT_NEAR(gap, 2.38732, 0.001);
 }
 
-TEST(EarthTaskTest, SmallPlanetGap) {
-  double gap = calculateEarthGap(200.0, 3.0);
-  EXPECT_NEAR(0.47746, gap, 0.001);
+TEST(EarthRope, Add30Meters) {
+    double gap = calculateEarthGap(6378.1, 30.0);
+    EXPECT_NEAR(gap, 4.77465, 0.001);
 }
 
-TEST(EarthTaskTest, LargePlanetGap) {
-  double gap = calculateEarthGap(50000.0, 3.0);
-  EXPECT_NEAR(0.47746, gap, 0.001);
+TEST(EarthRope, SmallPlanetSameGap) {
+    double gap = calculateEarthGap(300.0, 5.0);
+    EXPECT_NEAR(gap, 0.79577, 0.001);
 }
 
-TEST(EarthTaskTest, FiftyMetersAdded) {
-  double gap = calculateEarthGap(6378.1, 50.0);
-  EXPECT_NEAR(7.95775, gap, 0.001);
+TEST(EarthRope, GiantPlanetSameGap) {
+    double gap = calculateEarthGap(100000.0, 5.0);
+    EXPECT_NEAR(gap, 0.79577, 0.001);
 }
 
-TEST(EarthTaskTest, ZeroAddedLength) {
-  double gap = calculateEarthGap(6378.1, 0.0);
-  EXPECT_NEAR(0.0, gap, EPS);
+TEST(EarthRope, NoAddition) {
+    double gap = calculateEarthGap(6378.1, 0.0);
+    EXPECT_NEAR(gap, 0.0, TOLERANCE);
 }
 
-// -----------------------------
-// ТЕСТЫ ЗАДАЧИ "БАССЕЙН"
-// -----------------------------
-
-TEST(PoolTaskTest, StandardRoadCost) {
-  Pool res = calculateCostOfPool(4.0, 2.0);
-  EXPECT_NEAR(62831.85, res.costOfRoad, 0.5);
+TEST(EarthRope, NegativeAddition) {
+    double gap = calculateEarthGap(6378.1, -3.0);
+    EXPECT_NEAR(gap, -0.47746, 0.001);
 }
 
-TEST(PoolTaskTest, StandardFenceCost) {
-  Pool res = calculateCostOfPool(4.0, 2.0);
-  EXPECT_NEAR(75398.22, res.costOfFence, 0.5);
+// ============================================================
+// Тесты для задачи "Бассейн" (стоимость дорожки и забора)
+// ============================================================
+
+TEST(PoolCost, Radius6mPath2m) {
+    Pool res = calculateCostOfPool(6.0, 2.0);
+    EXPECT_NEAR(res.costOfRoad, 87964.6, 0.5);
+    EXPECT_NEAR(res.costOfFence, 100531.0, 0.5);
 }
 
-TEST(PoolTaskTest, NoPathCost) {
-  Pool res = calculateCostOfPool(5.0, 0.0);
-  EXPECT_NEAR(0.0, res.costOfRoad, EPS);
+TEST(PoolCost, Radius5mPath1m) {
+    Pool res = calculateCostOfPool(5.0, 1.0);
+    EXPECT_NEAR(res.costOfRoad, 34557.5, 0.5);
+    EXPECT_NEAR(res.costOfFence, 75398.2, 0.5);
 }
 
-TEST(PoolTaskTest, SmallPoolCost) {
-  Pool res = calculateCostOfPool(1.0, 0.3);
-  EXPECT_GT(res.costOfRoad, 0);
+TEST(PoolCost, NoPath) {
+    Pool res = calculateCostOfPool(5.0, 0.0);
+    EXPECT_NEAR(res.costOfRoad, 0.0, TOLERANCE);
+    EXPECT_NEAR(res.costOfFence, 62831.85, 0.5);
 }
 
-TEST(PoolTaskTest, FenceCostPositive) {
-  Pool res = calculateCostOfPool(2.0, 1.0);
-  EXPECT_GT(res.costOfFence, 0);
+TEST(PoolCost, TinyPool) {
+    Pool res = calculateCostOfPool(1.0, 0.5);
+    EXPECT_GT(res.costOfRoad, 0.0);
+    EXPECT_GT(res.costOfFence, 0.0);
 }
 
-TEST(PoolTaskTest, LargePoolFence) {
-  Pool res = calculateCostOfPool(8.0, 1.5);
-  EXPECT_GT(res.costOfFence, 100000);
+TEST(PoolCost, LargePoolFenceExpensive) {
+    Pool res = calculateCostOfPool(10.0, 2.0);
+    EXPECT_GT(res.costOfFence, 150000.0);
+}
+
+TEST(PoolCost, PathWidthZeroCostRoadZero) {
+    Pool res = calculateCostOfPool(4.0, 0.0);
+    EXPECT_NEAR(res.costOfRoad, 0.0, TOLERANCE);
 }
